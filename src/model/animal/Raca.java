@@ -2,8 +2,6 @@ package model.animal;
 
 import java.util.List;
 
-import model.Alimentacao;
-
 public class Raca {
     private String nome;
 
