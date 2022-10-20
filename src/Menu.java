@@ -1,15 +1,22 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import model.user.Funcionario;
+import model.user.Usuario;
+import model.user.Voluntario;
+
 public class Menu {
-    
-    public Menu() {
-    }
-    public static void Menu() throws IOException, InterruptedException{
+    private static List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+    private static List<Voluntario> voluntarios = new ArrayList<Voluntario>();
+
+    public static void mainMenu() throws IOException, InterruptedException{
         Scanner menu = new Scanner (System.in);
-        Scanner aux = new Scanner (System.in);
-        int opcao = 0;
+        Scanner auxS = new Scanner (System.in);
         String lixo;
+        int opcao = 0;
+        
         while (opcao!=5) {            
             if (System.getProperty("os.name").contains("Windows")){
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -27,16 +34,17 @@ public class Menu {
             System.out.print("|------------------------------------------------|\n");
             System.out.print("Digite uma opção: ");
 
-            opcao = menu.nextInt();
+            opcao = menu.nextInt();menu.nextLine();
 
-             if (opcao == 5) {
-                 menu.close();
-                 aux.close();
-             }
+            if (opcao == 5) {
+                menu.close();
+                auxS.close();
+            }
 
-            switch (opcao) {
+        switch (opcao) {
             case 1:
-                opcao1();
+                cadastroUsuario();
+
                 break;
 
             case 2:
@@ -61,69 +69,155 @@ public class Menu {
             }
             if(opcao!=5){
                 System.out.print("\nPressione Enter para continuar...");
-                lixo=aux.nextLine();
+                lixo=auxS.nextLine();
             }
         }
     }
-    protected static void opcao1() throws IOException, InterruptedException{
+
+    protected static void cadastroUsuario() throws IOException, InterruptedException{
         Scanner menu = new Scanner (System.in);
-        Scanner aux = new Scanner (System.in);
         int opcao = 0;
-        String lixo;
-        while (opcao!=5) {            
+        int aux;
+
+        int cpf;
+        String senha;
+        String nome;
+        Boolean encontrado;
+
+        while (opcao!=5) {
             if (System.getProperty("os.name").contains("Windows")){
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             }
             else{
                 Runtime.getRuntime().exec("clear");
             }
-            System.out.print("##---------------------Menu-------------------##\n\n");
+            System.out.print(" ##---------------------Menu-------------------##\n\n");
             System.out.print("|------------------------------------------------|\n");
             System.out.print("| Opção 1 - Cadastrar Usuario                    |\n");
-            System.out.print("| Opção 2 - Cadastrar Animal                     |\n");
-            System.out.print("| Opção 3 - Buscar animal                        |\n");
-            System.out.print("| Opção 4 -                                      |\n");
-            System.out.print("| Opção 5 - Sair                                 |\n");
+            System.out.print("| Opção 2 - Deletar Usuario                      |\n");
+            System.out.print("| Opção 3 - Listar Usuarios                      |\n");
+            System.out.print("| Opção 4 - Editar Usuario                       |\n");
+            System.out.print("| Opção 5 - Voltar ao Menu Principal             |\n");
             System.out.print("|------------------------------------------------|\n");
             System.out.print("Digite uma opção: ");
 
             opcao = menu.nextInt();
-
-             if (opcao == 5) {
-                 menu.close();
-                 aux.close();
-             }
+            menu.nextLine();
 
             switch (opcao) {
             case 1:
-                
+                System.out.println("Digite o CPF do Usuario a ser cadastrado:");
+                cpf = menu.nextInt();menu.nextLine();
+
+                encontrado = false;
+                for (Funcionario f : funcionarios){
+                    if (f.getCpf() == cpf){
+                        encontrado = true;
+                        System.out.println("Este CPF ja se encontra cadastrado como Funcionario.");
+                        break;
+                    }
+                }
+                for (Voluntario v : voluntarios){
+                    if (v.getCpf() == cpf){
+                        encontrado = true;
+                        System.out.println("Este CPF ja se encontra cadastrado como Voluntario.");
+                        break;
+                    }
+                }
+                if (!encontrado){
+                    // caso chegue aqui, entao o CPF nao esta cadastrado, e o cadastro sera prosseguido
+                    System.out.println("Digite a senha do Usuario a ser cadastrado:");
+                    senha = menu.nextLine();
+                    System.out.println("Digite o nome do Usuario a ser cadastrado:");
+                    nome = menu.nextLine();
+
+                    System.out.println("Qual tipo de Usuario deseja criar?");
+                    System.out.println("1 - Funcionario");
+                    System.out.println("2 - Voluntario");
+                    aux = menu.nextInt();menu.nextLine();
+
+                    if (aux == 1){ // funcionario
+                        funcionarios.add(new Funcionario(cpf, senha, nome));
+                        System.out.println("Novo Funcionario cadastrado.");
+                    }else if (aux == 2){ // voluntario
+                        voluntarios.add(new Voluntario(cpf, senha, nome));
+                        System.out.println("Novo Voluntario cadastrado.");
+                    } else{
+                        System.out.println("Opcao invalida. O usuario nao foi cadastrado.");
+                    }
+                }
+                System.out.println("Pressione Enter para continuar.");
+                menu.nextLine();
                 break;
 
             case 2:
-                
+                System.out.print("Digite o CPF que deseja deletar: ");
+                cpf = menu.nextInt();menu.nextLine();
+
+                for (Funcionario f : funcionarios){
+                    if (f.getCpf() == cpf){ 
+                        System.out.println("Funcionario removido: "+ f.getNome());
+                        funcionarios.remove(f);
+                        break;
+                    }
+                }
+                for (Voluntario v : voluntarios){
+                    if (v.getCpf() == cpf){ 
+                        System.out.println("Funcionario removido: "+ v.getNome());
+                        voluntarios.remove(v);
+                        break;
+                    }
+                }
+                System.out.println("Pressione Enter para continuar.");
+                menu.nextLine();
                 break;
 
             case 3:
-                
+                for (Funcionario f : funcionarios){
+                    System.out.print("Nome: "); System.out.println(f.getNome());
+                    System.out.print("CPF: "); System.out.println(f.getCpf());
+                }
+                for (Voluntario v : voluntarios){
+                    System.out.print("Nome: "); System.out.println(v.getNome());
+                    System.out.print("CPF: "); System.out.println(v.getCpf());
+                }
+                System.out.println("Pressione Enter para continuar.");
+                menu.nextLine();
                 break;
 
             case 4:
-                
+                System.out.print("Digite o CPF que deseja editar: ");
+                cpf = menu.nextInt();menu.nextLine();
+
+                for (Funcionario f : funcionarios){
+                    if (f.getCpf() == cpf){ 
+                        System.out.println("Digite o novo nome para: "+ f.getNome());
+                        nome = menu.nextLine();
+                        f.setNome(nome);
+                        break;
+                    }
+                }
+                for (Voluntario v : voluntarios){
+                    if (v.getCpf() == cpf){ 
+                        System.out.println("Digite o novo nome para: "+ v.getNome());
+                        nome = menu.nextLine();
+                        v.setNome(nome);
+                        break;
+                    }
+                }
+                System.out.println("Pressione Enter para continuar.");
+                menu.nextLine();
                 break;
 
             case 5:
-                
-                break;
+
+                return;
             default:
                 System.out.print("\nOpção Inválida!");
 
                 break;
             }
-            if(opcao!=5){
-                System.out.print("\nPressione Enter para continuar...");
-                lixo=aux.nextLine();
-            }
+
         }
     } 
-    
 }

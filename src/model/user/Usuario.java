@@ -3,6 +3,12 @@ public class Usuario {
     private int cpf;
     private String senha;
     private String nome;
+    
+    public Usuario(int cpf, String senha, String nome) {
+        this.cpf = cpf;
+        this.senha = senha;
+        this.nome = nome;
+    }
     public int getCpf() {
         return cpf;
     }
