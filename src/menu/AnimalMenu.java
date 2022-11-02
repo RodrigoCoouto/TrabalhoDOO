@@ -48,6 +48,7 @@ public class AnimalMenu {
 
             switch (opcao) {
             case 1:
+                clear();
                 System.out.print("Digite o nome do animal: ");
                 nome = menu.nextLine();
 
@@ -66,14 +67,14 @@ public class AnimalMenu {
                 System.out.print("Digite o peso do animal: ");
                 peso = menu.nextFloat();
                 System.out.print("Digite a altura do animal: ");
-                altura = menu.nextFloat();
+                altura = menu.nextFloat();menu.nextLine();
             
                 animais.add(new Animal(nome, idade, peso, altura, false));
                     
                 System.out.println("Novo Animal cadastrado.");
                 
                 
-                System.out.println("Pressione Enter para continuar.");
+                System.out.println("\nPressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
@@ -82,13 +83,14 @@ public class AnimalMenu {
                 nome = menu.nextLine();
 
                 for (Animal a : animais){
-                    if (a.getNome() == nome){ 
+                    System.out.println(""+ a.getNome()+"    "+nome);
+                    if (a.getNome().equals(nome)){ 
                         System.out.println("Animal removido: "+ a.getNome());
                         animais.remove(a);
                         break;
                     }
                 }
-                System.out.println("Pressione Enter para continuar.");
+                System.out.println("\nPressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
@@ -97,10 +99,10 @@ public class AnimalMenu {
             case 3:
                 for (Animal a : animais){
                     System.out.print("Nome: "); System.out.println(a.getNome());
-                    System.out.print("---------------------------------: ");
                     
                 }
-                System.out.println("Pressione Enter para continuar.");
+                System.out.println("---------------------------------");
+                System.out.println("\nPressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
@@ -109,7 +111,7 @@ public class AnimalMenu {
                 nome = menu.nextLine();
 
                 for (Animal a : animais){
-                    if (a.getNome() == nome){ 
+                    if (a.getNome().equals(nome)){ 
                         System.out.println("Digite o novo nome para: "+ a.getNome());
                         nome = menu.nextLine();
                         a.setNome(nome);
@@ -117,18 +119,19 @@ public class AnimalMenu {
                         idade = menu.nextFloat();
                         a.setIdade(idade);
                         System.out.println("Digite o nova altura: ");
-                        altura = menu.nextFloat();
+                        altura = menu.nextFloat();menu.nextLine();
                         a.setAltura(altura);
                         break;
                     }
                 }
                 
-                System.out.println("Pressione Enter para continuar.");
+                System.out.println("\nPressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
             case 5:
                 //CADASTRAR ESPECIE OU RACA?
+                clear();
                 System.out.println("Deseja cadastrar especie ou raca: ");
                 System.out.println("1 - Especie");
                 System.out.println("2 - Raca");
@@ -145,28 +148,41 @@ public class AnimalMenu {
                     menu.nextLine();
                 }
                 if (aux==1){ //CADASTRAR ESPECIE
+                    clear();
                     System.out.println("Informe o nome da especie que deseja cadastar (Ex: Cachorro): ");
                     String nomeEspecie = menu.nextLine();
                     //VERIFICAR SE JA EXISTE ESPECIE
                     Boolean especieJaExiste = false;
                     for (Especie e : especies){
-                        if (e.getNome() == nomeEspecie){
+                        if (e.getNome().equals(nomeEspecie)){
                             System.out.println("Especie ja existente com o nome: "+ nomeEspecie+ ". Favor cadastre a especie com outro nome.");
                             especieJaExiste = true;
+                            System.out.println("\nPressione Enter para continuar.");
+                            menu.nextLine();
                             break;
                         }
                     }
                     if (especieJaExiste) break;
                     especies.add(new Especie(nomeEspecie));
-                    System.out.println("Especie cadastrada com sucesso!");
+                    System.out.println("\nEspecie cadastrada com sucesso!");
                 }
 
                 else if (aux==2){ //CADASTRAR RACA
                     //ESCOLHE ESPECIE
+                    Boolean racaJaExiste=false;
+                    if (especies.size()==0){
+                        System.out.println("Não existem especies cadastradas, cadastre uma primeiro.");
+                        System.out.println("\nPressione Enter para continuar.");
+                        menu.nextLine();
+                        racaJaExiste=true;
+                    }
+                    if (racaJaExiste) break;
+                    clear();
                     int i=0;
                     int j=0;
                     for (Especie e : especies){ 
                         System.out.println("Codigo: "+i+" Nome: "+e.getNome());
+                        i++;
 
                     }
                     System.out.println("");
@@ -177,16 +193,19 @@ public class AnimalMenu {
                         System.out.println("Selecione a especie desejada para cadastrar a raca: ");
                         j= menu.nextInt();menu.nextLine();
                     }
+                    clear();
                     System.out.println("Especie: "+especies.get(j).getNome());
 
                     System.out.println("Informe o nome da raca: ");
-                    String nomeRaca=menu.nextLine();menu.nextLine();
+                    String nomeRaca=menu.nextLine();
                     //INFORMA NOME RACA E VERIFICA EXISTENCIA
-                    Boolean racaJaExiste=false;
+                    
                     for (Raca r : racas){
-                        if (r.getNome() == nomeRaca){
+                        if (r.getNome().equals(nomeRaca)){
                             System.out.println("Raca ja existente com o nome: "+ nomeRaca+ ". Favor cadastre a Raca com outro nome.");
                             racaJaExiste = true;
+                            System.out.println("\nPressione Enter para continuar.");
+                            menu.nextLine();
                             break;
                         }
                     }
@@ -199,7 +218,7 @@ public class AnimalMenu {
 
                
                 
-                System.out.println("Pressione Enter para continuar.");
+                System.out.println("\nPressione Enter para continuar.");
                 menu.nextLine();
                 break;
             case 6:
