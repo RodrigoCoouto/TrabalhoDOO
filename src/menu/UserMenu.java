@@ -1,16 +1,14 @@
 package menu;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dao.UserDAO;
 import model.user.Funcionario;
 import model.user.Voluntario;
 
 public class UserMenu {
-    private static List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-    private static List<Voluntario> voluntarios = new ArrayList<Voluntario>();
 
     public static void cadastroUsuario() throws IOException, InterruptedException{
         Scanner menu = new Scanner (System.in);
@@ -20,7 +18,11 @@ public class UserMenu {
         int cpf;
         String senha;
         String nome;
-        Boolean encontrado;
+
+        UserDAO usrDAO = new UserDAO();
+
+        List<Funcionario> funcionarios;
+        List<Voluntario> voluntarios;
 
         while (opcao!=5) {
             if (System.getProperty("os.name").contains("Windows")){
@@ -43,74 +45,46 @@ public class UserMenu {
             menu.nextLine();
 
             switch (opcao) {
-            case 1:
+            case 1: // adicionar
                 System.out.println("Digite o CPF do Usuario a ser cadastrado:");
                 cpf = menu.nextInt();menu.nextLine();
+                System.out.println("Digite o nome do Usuario a ser cadastrado:");
+                nome = menu.nextLine();
+                System.out.println("Digite a senha do Usuario a ser cadastrado:");
+                senha = menu.nextLine();
+                System.out.println("Qual tipo de Usuario deseja criar?");
+                System.out.println("1 - Funcionario");
+                System.out.println("2 - Voluntario");
+                aux = menu.nextInt();menu.nextLine();
 
-                encontrado = false;
-                for (Funcionario f : funcionarios){
-                    if (f.getCpf() == cpf){
-                        encontrado = true;
-                        System.out.println("Este CPF ja se encontra cadastrado como Funcionario.");
-                        break;
-                    }
+                if (aux == 1){ // funcionario
+                    Funcionario usr = new Funcionario(cpf, senha, nome);
+                    usrDAO.salvaUsuario(usr, true);
+                }else if (aux == 2){ // voluntario
+                    Voluntario usr = new Voluntario(cpf, senha, nome);
+                    usrDAO.salvaUsuario(usr, false);
+                } else{
+                    System.out.println("Opcao invalida. O usuario nao foi cadastrado.");
                 }
-                for (Voluntario v : voluntarios){
-                    if (v.getCpf() == cpf){
-                        encontrado = true;
-                        System.out.println("Este CPF ja se encontra cadastrado como Voluntario.");
-                        break;
-                    }
-                }
-                if (!encontrado){
-                    // caso chegue aqui, entao o CPF nao esta cadastrado, e o cadastro sera prosseguido
-                    System.out.println("Digite a senha do Usuario a ser cadastrado:");
-                    senha = menu.nextLine();
-                    System.out.println("Digite o nome do Usuario a ser cadastrado:");
-                    nome = menu.nextLine();
 
-                    System.out.println("Qual tipo de Usuario deseja criar?");
-                    System.out.println("1 - Funcionario");
-                    System.out.println("2 - Voluntario");
-                    aux = menu.nextInt();menu.nextLine();
-
-                    if (aux == 1){ // funcionario
-                        funcionarios.add(new Funcionario(cpf, senha, nome));
-                        System.out.println("Novo Funcionario cadastrado.");
-                    }else if (aux == 2){ // voluntario
-                        voluntarios.add(new Voluntario(cpf, senha, nome));
-                        System.out.println("Novo Voluntario cadastrado.");
-                    } else{
-                        System.out.println("Opcao invalida. O usuario nao foi cadastrado.");
-                    }
-                }
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
-            case 2:
+            case 2: // deletar
                 System.out.print("Digite o CPF que deseja deletar: ");
                 cpf = menu.nextInt();menu.nextLine();
 
-                for (Funcionario f : funcionarios){
-                    if (f.getCpf() == cpf){ 
-                        System.out.println("Funcionario removido: "+ f.getNome());
-                        funcionarios.remove(f);
-                        break;
-                    }
-                }
-                for (Voluntario v : voluntarios){
-                    if (v.getCpf() == cpf){ 
-                        System.out.println("Funcionario removido: "+ v.getNome());
-                        voluntarios.remove(v);
-                        break;
-                    }
-                }
+                usrDAO.deletaUsuario(cpf);
+
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
-            case 3:
+            case 3: // listar
+                funcionarios = usrDAO.getAllFuncionario();
+                voluntarios = usrDAO.getAllVoluntario();
+
                 for (Funcionario f : funcionarios){
                     System.out.print("Nome: "); System.out.println(f.getNome());
                     System.out.print("CPF: "); System.out.println(f.getCpf());
@@ -123,36 +97,22 @@ public class UserMenu {
                 menu.nextLine();
                 break;
 
-            case 4:
-                System.out.print("Digite o CPF que deseja editar: ");
+            case 4: // editar
+                System.out.println("Digite o CPF do Usuario a ser editado:");
                 cpf = menu.nextInt();menu.nextLine();
+                System.out.println("Digite o novo nome para o Usuario:");
+                nome = menu.nextLine();
 
-                for (Funcionario f : funcionarios){
-                    if (f.getCpf() == cpf){ 
-                        System.out.println("Digite o novo nome para: "+ f.getNome());
-                        nome = menu.nextLine();
-                        f.setNome(nome);
-                        break;
-                    }
-                }
-                for (Voluntario v : voluntarios){
-                    if (v.getCpf() == cpf){ 
-                        System.out.println("Digite o novo nome para: "+ v.getNome());
-                        nome = menu.nextLine();
-                        v.setNome(nome);
-                        break;
-                    }
-                }
+                usrDAO.editaUsuario(cpf, nome);
+                
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
                 break;
 
-            case 5:
-                Menu.mainMenu();
-                break;
+            case 5: // finaliza menu
+                return;
             default:
                 System.out.print("\nOpção Inválida!");
-
                 break;
             }
         }
