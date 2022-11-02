@@ -9,6 +9,15 @@ public class Animal {
 
     private Raca raca;
 
+    public Animal(String nome,float idade,float peso,float altura,boolean adotado){
+        this.nome = nome;
+        this.idade = idade;
+        this.peso = peso;
+        this.altura = altura;
+        this.adotado = adotado;
+
+    }
+
     public String getNome() {
         return nome;
     }

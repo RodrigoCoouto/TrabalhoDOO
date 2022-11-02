@@ -11,6 +11,10 @@ public class Especie {
     private List<TipoMedicamento> lstMedicamentos;
     private List<TipoVacina> lstVacinas;
 
+    public Especie(String nome){
+        this.nome =nome;
+    }
+
     public String getNome() {
         return nome;
     }

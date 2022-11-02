@@ -148,8 +148,8 @@ public class UserMenu {
                 break;
 
             case 5:
-
-                return;
+                Menu.mainMenu();
+                break;
             default:
                 System.out.print("\nOpção Inválida!");
 

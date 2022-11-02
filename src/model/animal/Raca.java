@@ -8,6 +8,12 @@ public class Raca {
     private Especie especie;
     private List<Alimentacao> lstAlimentacao;
 
+
+    public Raca(String nome, Especie especie){
+        this.nome =nome;
+        this.especie =especie;
+    }
+
     public Especie getEspecie() {
         return especie;
     }

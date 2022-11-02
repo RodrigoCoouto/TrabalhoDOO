@@ -10,6 +10,7 @@ public class Medicamento {
     private int qntDose;
     private String motivo;
     private boolean reacaoAlergica;
+    
     public Date getData() {
         return data;
     }
