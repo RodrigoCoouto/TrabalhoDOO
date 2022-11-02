@@ -19,8 +19,8 @@ public class Menu {
             System.out.print("##---------------------Menu-------------------##\n\n");
             System.out.print("|------------------------------------------------|\n");
             System.out.print("| Opção 1 - Cadastrar Usuario                    |\n");
-            System.out.print("| Opção 2 - Cadastrar Animal                     |\n");
-            System.out.print("| Opção 3 - Cadastrar Raca                       |\n");
+            System.out.print("| Opção 2 - Cadastrar Animal, especies ou racas  |\n");
+            System.out.print("| Opção 3 -                                      |\n");
             System.out.print("| Opção 4 -                                      |\n");
             System.out.print("| Opção 5 - Sair                                 |\n");
             System.out.print("|------------------------------------------------|\n");
