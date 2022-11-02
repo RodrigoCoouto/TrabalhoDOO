@@ -10,7 +10,7 @@ import model.vaccine.TipoVacina;
 import model.vaccine.Vacina;
 
 public class VacinaMenu {
-    private static List<TipoVacina> tipoVacina = new ArrayList<TipoVacina>();
+    private static ArrayList<TipoVacina> tipoVacina = new ArrayList<TipoVacina>();
 
 
     /**
@@ -49,14 +49,20 @@ public class VacinaMenu {
 
             switch (opcao) {
             case 1:
-                
+
                     System.out.println("Digite a nome da vacina a ser cadastrada:");
                     nome = menu.nextLine();
+                    for (TipoVacina tv : tipoVacina){
+                        while(tv.getNome().equals(nome)){
+                            System.out.println("Digite a nome da vacina a ser cadastrada:");
+                            nome = menu.nextLine();
+                        }
+                    }
                     System.out.println("Digite o tipo da vacina a ser cadastrada:");
                     tipo = menu.nextLine();
                     tipoVacina.add(new TipoVacina(nome, tipo));
                     System.out.println("Nova Vacina cadastrada.");
-                
+                    
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
                 break;
@@ -67,7 +73,7 @@ public class VacinaMenu {
                 nome = menu.nextLine();
 
                 for (TipoVacina tv : tipoVacina){
-                    if (tv.getNome() == nome){ 
+                    if (tv.getNome().equals(nome)){ 
                         System.out.println("Vacina removida: "+ tv.getNome());
                         tipoVacina.remove(tv);
                         break;
@@ -81,6 +87,7 @@ public class VacinaMenu {
                 for (TipoVacina tv : tipoVacina){
                     System.out.print("Nome: "); System.out.println(tv.getNome());
                     System.out.print("Tipo: "); System.out.println(tv.getTipo());
+                    System.out.print("\n");
                 }
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
@@ -91,7 +98,7 @@ public class VacinaMenu {
                 nome = menu.nextLine();
 
                 for (TipoVacina tv : tipoVacina){
-                    if (tv.getNome() == nome){ 
+                    if (tv.getNome().equals(nome)){ 
                         System.out.println("Digite o novo nome para: "+ tv.getNome());
                         nome = menu.nextLine();
                         tv.setNome(nome);
@@ -99,16 +106,6 @@ public class VacinaMenu {
                     }
                 }
 
-                System.out.print("Digite o tipo da vacina que deseja editar: ");
-                tipo = menu.nextLine();
-                for (TipoVacina tv : tipoVacina){
-                    if (tv.getTipo() == tipo){ 
-                        System.out.println("Digite o novo tipo para: "+ tv.getTipo());
-                        tipo = menu.nextLine();
-                        tv.setTipo(tipo);
-                        break;
-                    }
-                }
                 System.out.println("Pressione Enter para continuar.");
                 menu.nextLine();
                 break;
