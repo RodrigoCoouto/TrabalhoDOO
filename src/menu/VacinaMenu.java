@@ -110,8 +110,7 @@ public class VacinaMenu {
                 menu.nextLine();
                 break;
             case 5:
-                Menu.mainMenu();
-                break;
+             return;
             default:
                 System.out.print("\nOpção Inválida!");
 

@@ -288,8 +288,8 @@ public class AnimalMenu {
                 menu.nextLine();
                 break;
             case 6:
-                Menu.mainMenu();
-                break;
+                return;
+                
             default:
                 System.out.print("\nOpção Inválida!");
 
