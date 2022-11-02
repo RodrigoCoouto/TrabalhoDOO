@@ -20,7 +20,7 @@ public class Menu {
             System.out.print("|------------------------------------------------|\n");
             System.out.print("| Opção 1 - Cadastrar Usuario                    |\n");
             System.out.print("| Opção 2 - Cadastrar Animal, especies ou racas  |\n");
-            System.out.print("| Opção 3 -                                      |\n");
+            System.out.print("| Opção 3 - Cadastrar Vacinas                    |\n");
             System.out.print("| Opção 4 -                                      |\n");
             System.out.print("| Opção 5 - Sair                                 |\n");
             System.out.print("|------------------------------------------------|\n");
@@ -44,11 +44,11 @@ public class Menu {
                 break;
 
             case 3:
-                
+                VacinaMenu.cadastroTipoVacina();
                 break;
 
             case 4:
-                VacinaMenu.cadastroTipoVacina();
+                
                 break;
 
             case 5:
