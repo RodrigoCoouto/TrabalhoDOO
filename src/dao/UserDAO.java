@@ -21,10 +21,12 @@ public class UserDAO{
             ResultSet rs = stmt.executeQuery("select * from usuario");
 
             while (rs.next()){
-                if (rs.getInt("cpf") == cpf) // caso encontre o cpf, entao o usuario ja foi 
-                    if (rs.getBoolean("funcionario")) // caso for um funcionario, retorna um 
-                        return new Funcionario(rs.getInt("cpf"), rs.getString("senha"), rs.getString("nome"));
-                    return new Voluntario(rs.getInt("cpf"), rs.getString("senha"), rs.getString("nome"));
+                if (rs.getInt("cpf") != cpf)
+                    continue;
+                // caso encontre o cpf, entao o usuario ja foi cadastrado
+                if (rs.getBoolean("funcionario")) // caso for um funcionario, retorna um 
+                    return new Funcionario(rs.getInt("cpf"), rs.getString("senha"), rs.getString("nome"));
+                return new Voluntario(rs.getInt("cpf"), rs.getString("senha"), rs.getString("nome"));
             }
 
 		} catch (SQLException e) {
